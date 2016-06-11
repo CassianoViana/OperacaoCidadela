@@ -2,8 +2,12 @@ package game;
 
 import java.util.List;
 
+import view.Scene;
+
 public interface ServerListener {
 
-	public void updatedLobbs(List<Lobb> lobbs);
+	void updatedLobbs(List<Lobb> lobbs);
+	void startedLobb();
+	void updated(Scene scene);
 	
 }

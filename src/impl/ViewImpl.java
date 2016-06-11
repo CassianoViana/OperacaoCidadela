@@ -1,19 +1,20 @@
 package impl;
 
-import game.GameView;
+import game.View;
 import game.Lobb;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import view.GameViewListener;
+import view.ViewListener;
+import view.Scene;
 
-public class GameViewImpl implements GameView {
+public class ViewImpl implements View {
 
-	private Collection<GameViewListener> listeners;
+	private Collection<ViewListener> listeners;
 	
-	public GameViewImpl() {
+	public ViewImpl() {
 		listeners = new ArrayList<>();
 	}
 	
@@ -35,7 +36,18 @@ public class GameViewImpl implements GameView {
 	}
 
 	@Override
-	public void addListener(GameViewListener viewListener) {
+	public void addListener(ViewListener viewListener) {
+		this.listeners.add(viewListener);
+	}
+
+	@Override
+	public void startedLobb() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void paint(Scene scene) {
 		// TODO Auto-generated method stub
 		
 	}
