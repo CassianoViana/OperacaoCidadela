@@ -2,3 +2,7 @@
 *.jar
 /bin/
 .metadata
+build.xml
+manifest.mf
+nbproject/
+
