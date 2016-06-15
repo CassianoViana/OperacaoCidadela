@@ -1,16 +1,17 @@
 package game;
 
 import java.io.Serializable;
-import java.rmi.Remote;
 
-public interface Lobb extends Serializable {
+public interface Lobb extends java.rmi.Remote, Serializable {
 
-        void addGameObject(GameObject gameObject);
+        void addGameObject(GameObject gameObject) throws java.rmi.RemoteException;
 
-        String getName();
+        String getName() throws java.rmi.RemoteException;
 
-        void start();
+        void start() throws java.rmi.RemoteException;
 
-        void addListener(LobbListener listener);
+        void addListener(LobbListener listener) throws java.rmi.RemoteException;
+
+        public Canvas getCanvas() throws java.rmi.RemoteException;
 
 }

@@ -4,6 +4,9 @@ import game.Canvas;
 import game.GameObject;
 import game.Lobb;
 import game.LobbListener;
+import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class LobbRunnable implements Runnable, Lobb {
 
@@ -14,12 +17,12 @@ public class LobbRunnable implements Runnable, Lobb {
         }
 
         @Override
-        public void addGameObject(GameObject gameObject) {
+        public void addGameObject(GameObject gameObject) throws RemoteException {
                 lobb.addGameObject(gameObject);
         }
 
         @Override
-        public String getName() {
+        public String getName() throws RemoteException {
                 return lobb.getName();
         }
 
@@ -29,13 +32,22 @@ public class LobbRunnable implements Runnable, Lobb {
         }
 
         @Override
-        public void addListener(LobbListener listener) {
+        public void addListener(LobbListener listener) throws RemoteException {
                 lobb.addListener(listener);
         }
 
         @Override
+        public Canvas getCanvas() throws RemoteException {
+                return lobb.getCanvas();
+        }
+
+        @Override
         public void run() {
-                lobb.start();
+                try {
+                        lobb.start();
+                } catch (RemoteException ex) {
+                        Logger.getLogger(LobbRunnable.class.getName()).log(Level.SEVERE, null, ex);
+                }
         }
 
 }

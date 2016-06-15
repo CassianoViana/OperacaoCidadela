@@ -4,13 +4,17 @@ import config.GameConstants;
 import game.Canvas;
 import game.Lobb;
 import game.View;
+import java.awt.BorderLayout;
 import java.awt.Graphics;
 import static java.awt.image.ImageObserver.WIDTH;
 import java.io.Serializable;
+import java.rmi.RemoteException;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -22,14 +26,16 @@ import view.ViewListener;
 public class ViewImpl extends JFrame implements View {
 
         private final Collection<ViewListener> listeners;
+        private final PanelGame panelGame;
 
         public ViewImpl() {
                 listeners = new ArrayList<>();
+                panelGame = new PanelGame();
                 setSize(GameConstants.SCREEN_WIDTH, GameConstants.SCREEN_HEIGHT);
                 setResizable(false);
                 setLocationRelativeTo(null);
                 setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-                add(new PanelGame());
+                add(panelGame);
         }
 
         @Override
@@ -50,10 +56,20 @@ public class ViewImpl extends JFrame implements View {
         //----------------------------------------------------------------------
         @Override
         public Lobb chooseLobb(List<Lobb> lobbs) {
-                String i = JOptionPane.showInputDialog("Escolha a sala");
-                Lobb lobb = lobbs.get(Integer.parseInt(i));
-                validate();
-                return lobb;
+                try {
+                        String i = JOptionPane.showInputDialog("Escolha a sala");
+                        Lobb lobb = lobbs.get(Integer.parseInt(i));
+                        Canvas canvas;
+                        canvas = lobb.getCanvas();
+                        canvas.setSize(getSize());
+                        remove(panelGame);
+                        add(canvas);
+                        repaint();
+                        return lobb;
+                } catch (RemoteException ex) {
+                        showError(ex);
+                }
+                return null;
         }
 
         @Override

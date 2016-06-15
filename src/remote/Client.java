@@ -3,7 +3,7 @@ package remote;
 import game.Canvas;
 import game.Command;
 import game.Lobb;
-import game.LobbListenerAdapter;
+import game.LobbListener;
 import game.Player;
 import game.Server;
 import game.ServerListenerAdapter;
@@ -117,12 +117,10 @@ public class Client implements Serializable {
                 try {
                         List<Lobb> listLobbs = server.listLobbs();
                         Lobb lobb = view.chooseLobb(listLobbs);
-//                        server.addLobbListener(new LobbListenerAdapter() {
-//                                @Override
-//                                public void newImageWasGenereted(Canvas canvas) {
-//                                        paint(canvas);
-//                                }
-//                        }, listLobbs.indexOf(lobb));
+                        lobb.addListener((Canvas canvas) -> {
+                                System.out.println(view);
+                        });
+                        lobb.addGameObject(player);
                         System.out.println(lobb);
                         server.addLobb(lobb);
                 } catch (RemoteException ex) {

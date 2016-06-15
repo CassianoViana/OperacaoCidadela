@@ -61,7 +61,7 @@ public class ServerImpl implements Server {
         }
 
         @Override
-        public void addLobbListener(LobbListener lobbListener, Integer lobbIndex) {
+        public void addLobbListener(LobbListener lobbListener, Integer lobbIndex) throws RemoteException {
                 lobbs.get(lobbIndex).addListener(lobbListener);
         }
 

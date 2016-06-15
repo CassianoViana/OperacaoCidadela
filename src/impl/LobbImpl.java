@@ -4,14 +4,16 @@ import game.Canvas;
 import game.GameObject;
 import game.Lobb;
 import game.LobbListener;
-import java.rmi.Remote;
+import java.io.Serializable;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class LobbImpl implements Lobb, Remote {
+public class LobbImpl extends UnicastRemoteObject implements Lobb, Serializable {
 
         private static final int SLEEP_TIME = 100;
         private final Collection<LobbListener> listeners;
@@ -19,7 +21,8 @@ public class LobbImpl implements Lobb, Remote {
         private final Canvas canvas;
         private final String name;
 
-        public LobbImpl(String name) {
+        public LobbImpl(String name) throws RemoteException 
+        {
                 this.name = name;
                 gameObjects = new HashSet<>();
                 listeners = new HashSet<>();
@@ -64,6 +67,7 @@ public class LobbImpl implements Lobb, Remote {
                         gameObject.paint(canvas);
                 });
                 System.out.println(listeners);
+                System.out.println(gameObjects);
                 listeners.forEach((listener) -> {
                         listener.newImageWasGenereted(canvas);
                 });
@@ -71,7 +75,7 @@ public class LobbImpl implements Lobb, Remote {
 
         //----------------------------------------------------------
         @Override
-        public void addListener(LobbListener listener) {
+        public void addListener(LobbListener listener) throws java.rmi.RemoteException {
                 this.listeners.add(listener);
         }
 
@@ -84,6 +88,11 @@ public class LobbImpl implements Lobb, Remote {
         public void addGameObject(GameObject gameObject) {
                 System.out.println("GameImpl.addGameObject()");
                 gameObjects.add(gameObject);
+        }
+
+        @Override
+        public Canvas getCanvas() {
+                return canvas;
         }
 
 }
