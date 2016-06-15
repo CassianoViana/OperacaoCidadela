@@ -1,6 +1,7 @@
 package impl.scennes;
 
 import game.Lobb;
+import game.Scene;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -10,8 +11,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import view.Scene;
 
 public class SceneListLobbs implements Scene {
 

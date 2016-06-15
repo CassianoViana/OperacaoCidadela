@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.Collection;
 
 
-public abstract class Canvas implements Serializable {
+public abstract class Canvas implements Serializable, Scene {
         private Graphics2D graphics;
 
         public Graphics2D getGraphics() {

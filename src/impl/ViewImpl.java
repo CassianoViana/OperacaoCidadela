@@ -2,6 +2,7 @@ package impl;
 
 import game.View;
 import game.Lobb;
+import game.Scene;
 import impl.scennes.SceneListLobbs;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -10,11 +11,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import view.ViewListener;
-import view.Scene;
 
 public class ViewImpl extends JFrame implements View {
 
@@ -44,6 +43,11 @@ public class ViewImpl extends JFrame implements View {
         public void showLobbs(List<Lobb> lobbs) {
                 Scene sceneListLobbs = new SceneListLobbs(lobbs);
                 paint(sceneListLobbs);
+        }
+
+        @Override
+        public Lobb chooseLobb(List<Lobb> lobbs) {
+                return lobbs.get(0);
         }
 
         @Override

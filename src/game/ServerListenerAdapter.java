@@ -2,8 +2,6 @@ package game;
 
 import java.util.List;
 
-import view.Scene;
-
 public class ServerListenerAdapter implements ServerListener {
 
 	@Override

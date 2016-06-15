@@ -3,7 +3,6 @@ package game;
 import java.util.List;
 
 import view.ViewListener;
-import view.Scene;
 
 public interface View {
         
@@ -12,6 +11,8 @@ public interface View {
 	void showPresentation();
 
 	void showLobbs(List<Lobb> lobbs);
+        
+        Lobb chooseLobb(List<Lobb> lobbs);
 
 	void showError(Throwable e);
 

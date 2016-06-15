@@ -1,8 +1,11 @@
 package remote;
 
+import game.Canvas;
 import game.Command;
 import game.Lobb;
+import game.LobbListenerAdapter;
 import game.Player;
+import game.Scene;
 import game.Server;
 import game.ServerListenerAdapter;
 import game.Team;
@@ -17,7 +20,6 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.List;
 
-import view.Scene;
 import view.ViewListenerAdapter;
 
 public class Client implements Serializable {
@@ -118,6 +120,19 @@ public class Client implements Serializable {
 
         private void chooseLobb() {
                 showLobbs();
+                Lobb lobb;
+                try {
+                        lobb = view.chooseLobb(server.listLobbs());
+                        lobb.addListener(new LobbListenerAdapter() {
+                                @Override
+                                public void painted(Canvas canvas) {
+                                        view.paint(canvas);
+                                }
+                        });
+                } catch (RemoteException ex) {
+                        view.showError(ex);
+                }
+
         }
 
         private void showLobbs() {
