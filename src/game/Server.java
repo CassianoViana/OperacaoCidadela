@@ -5,12 +5,10 @@ import java.util.List;
 
 public interface Server extends java.rmi.Remote {
 
-	void addPlayer(Player player) throws RemoteException;
+        List<Lobb> listLobbs() throws RemoteException;
 
-	List<Lobb> listLobbs();
+        void addListener(ServerListener listener) throws RemoteException;
 
-	void addListener(ServerListener listener);
-
-	void addLobb(Lobb lobb);
+        void addLobb(Lobb lobb) throws RemoteException;
 
 }

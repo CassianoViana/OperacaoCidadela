@@ -17,8 +17,6 @@ public class StartTest {
 		Server gameServer = ServerImpl.instance();
 		Player player1 = Client.create();
 		Player player2 = Client.create();
-		gameServer.addPlayer(player1);
-		gameServer.addPlayer(player2);
 	}
 
 }

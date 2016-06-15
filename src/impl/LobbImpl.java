@@ -9,8 +9,10 @@ import java.util.Collection;
 public class LobbImpl implements Lobb {
 
 	private final Collection<Player> players; 
+        private final String name;
 	
-	public LobbImpl() {
+	public LobbImpl(String name) {
+                this.name = name;
 		players = new ArrayList<>();
 	}
 	
@@ -19,5 +21,10 @@ public class LobbImpl implements Lobb {
 		System.out.println("GameImpl.addPlayer()");
 		players.add(player);
 	}
+
+        @Override
+        public String getName() {
+                return name;
+        }
 
 }

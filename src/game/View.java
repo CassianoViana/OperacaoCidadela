@@ -6,6 +6,8 @@ import view.ViewListener;
 import view.Scene;
 
 public interface View {
+        
+        void showView();
 
 	void showPresentation();
 
@@ -18,5 +20,7 @@ public interface View {
 	void startedLobb();
 
 	void paint(Scene scene);
+
+        public String requestName();
 
 }
