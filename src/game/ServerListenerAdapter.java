@@ -10,7 +10,5 @@ public class ServerListenerAdapter implements ServerListener {
 	@Override
 	public void startedLobb() {}
 
-	@Override
-	public void updated(Scene scene) {}
 
 }

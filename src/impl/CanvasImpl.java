@@ -1,19 +1,11 @@
-
 package impl;
 
+import config.GameConstants;
 import game.Canvas;
-import game.GameObject;
-import java.awt.Color;
-import java.util.Collection;
+import java.awt.image.BufferedImage;
 
 class CanvasImpl extends Canvas {
-
         public CanvasImpl() {
+                image = new BufferedImage(GameConstants.SCREEN_WIDTH, GameConstants.SCREEN_HEIGHT, BufferedImage.TYPE_INT_ARGB);
         }
-
-        @Override
-        public void paintGameObjects(Collection<GameObject> gameObjects) {
-                //getGraphics().setBackground(Color.yellow);
-        }
-
 }

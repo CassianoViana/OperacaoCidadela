@@ -11,4 +11,30 @@ public abstract class GameObject implements Serializable {
                 this.y = y;
         }
 
+        public void mvRight() {
+                this.x += getSpeed();
+        }
+
+        public abstract void paint(Canvas canvas);
+
+        public abstract void update();
+        
+        public abstract float getSpeed();
+
+        public int getX() {
+                return x;
+        }
+
+        public void setX(int x) {
+                this.x = x;
+        }
+
+        public int getY() {
+                return y;
+        }
+
+        public void setY(int y) {
+                this.y = y;
+        }
+
 }

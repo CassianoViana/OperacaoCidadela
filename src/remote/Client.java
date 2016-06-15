@@ -5,7 +5,6 @@ import game.Command;
 import game.Lobb;
 import game.LobbListenerAdapter;
 import game.Player;
-import game.Scene;
 import game.Server;
 import game.ServerListenerAdapter;
 import game.Team;
@@ -26,7 +25,7 @@ public class Client implements Serializable {
 
         private static Server server;
         private static Player player;
-        private transient final View view;
+        private static View view;
 
         private static Client instance;
 
@@ -50,7 +49,7 @@ public class Client implements Serializable {
                         @Override
                         public void selectedLobb(Lobb lobb) {
                                 try {
-                                        lobb.addPlayer(player);
+                                        lobb.addGameObject(player);
                                 } catch (Exception e) {
                                         showError(e);
                                 }
@@ -99,11 +98,6 @@ public class Client implements Serializable {
                                 view.startedLobb();
                         }
 
-                        @Override
-                        public void updated(Scene scene) {
-                                view.paint(scene);
-                        }
-
                 });
         }
 
@@ -120,19 +114,25 @@ public class Client implements Serializable {
 
         private void chooseLobb() {
                 showLobbs();
-                Lobb lobb;
                 try {
-                        lobb = view.chooseLobb(server.listLobbs());
-                        lobb.addListener(new LobbListenerAdapter() {
-                                @Override
-                                public void painted(Canvas canvas) {
-                                        view.paint(canvas);
-                                }
-                        });
+                        List<Lobb> listLobbs = server.listLobbs();
+                        Lobb lobb = view.chooseLobb(listLobbs);
+//                        server.addLobbListener(new LobbListenerAdapter() {
+//                                @Override
+//                                public void newImageWasGenereted(Canvas canvas) {
+//                                        paint(canvas);
+//                                }
+//                        }, listLobbs.indexOf(lobb));
+                        System.out.println(lobb);
+                        server.addLobb(lobb);
                 } catch (RemoteException ex) {
                         view.showError(ex);
                 }
 
+        }
+        
+        private void paint(Canvas canvas){
+                view.paint(canvas);
         }
 
         private void showLobbs() {

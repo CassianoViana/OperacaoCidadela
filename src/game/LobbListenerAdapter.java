@@ -3,7 +3,7 @@ package game;
 public class LobbListenerAdapter implements LobbListener {
 
         @Override
-        public void painted(Canvas canvas) {
+        public void newImageWasGenereted(Canvas canvas) {
         }
 
 }

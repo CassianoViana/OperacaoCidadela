@@ -7,6 +7,5 @@ public interface ServerListener extends Serializable {
 
 	void updatedLobbs(List<Lobb> lobbs);
 	void startedLobb();
-	void updated(Scene scene);
 	
 }

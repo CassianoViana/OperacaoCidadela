@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public interface LobbListener extends Serializable {
 
-        void painted(Canvas canvas);
+        void newImageWasGenereted(Canvas canvas);
+        
 
 }

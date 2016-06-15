@@ -1,8 +1,9 @@
 package impl.decorators;
 
+import game.Canvas;
+import game.GameObject;
 import game.Lobb;
 import game.LobbListener;
-import game.Player;
 
 public class LobbRunnable implements Runnable, Lobb {
 
@@ -13,8 +14,8 @@ public class LobbRunnable implements Runnable, Lobb {
         }
 
         @Override
-        public void addPlayer(Player player) {
-                lobb.addPlayer(player);
+        public void addGameObject(GameObject gameObject) {
+                lobb.addGameObject(gameObject);
         }
 
         @Override

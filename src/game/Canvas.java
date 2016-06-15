@@ -1,17 +1,19 @@
-
 package game;
 
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.io.Serializable;
-import java.util.Collection;
 
+public abstract class Canvas implements Serializable {
 
-public abstract class Canvas implements Serializable, Scene {
-        private Graphics2D graphics;
+        public transient Image image;
 
-        public Graphics2D getGraphics() {
-                return graphics;
+        public Image getImage() {
+                return image;
         }
 
-        public abstract void paintGameObjects(Collection<GameObject> gameObjects);
+        public Graphics2D getGraphics() {
+                return (Graphics2D) image.getGraphics();
+        }
+
 }

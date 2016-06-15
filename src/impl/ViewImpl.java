@@ -1,32 +1,35 @@
 package impl;
 
-import game.View;
+import config.GameConstants;
+import game.Canvas;
 import game.Lobb;
-import game.Scene;
-import impl.scennes.SceneListLobbs;
+import game.View;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
+import static java.awt.image.ImageObserver.WIDTH;
+import java.io.Serializable;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.WindowConstants;
+import resources.Resources;
 
 import view.ViewListener;
 
 public class ViewImpl extends JFrame implements View {
 
         private final Collection<ViewListener> listeners;
-        private final Canvas canvas;
 
         public ViewImpl() {
                 listeners = new ArrayList<>();
-                setSize(1000, 665);
+                setSize(GameConstants.SCREEN_WIDTH, GameConstants.SCREEN_HEIGHT);
                 setResizable(false);
                 setLocationRelativeTo(null);
-                canvas = new Canvas();
-                add(canvas);
+                setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                add(new PanelGame());
         }
 
         @Override
@@ -41,20 +44,24 @@ public class ViewImpl extends JFrame implements View {
 
         @Override
         public void showLobbs(List<Lobb> lobbs) {
-                Scene sceneListLobbs = new SceneListLobbs(lobbs);
-                paint(sceneListLobbs);
+
         }
 
+        //----------------------------------------------------------------------
         @Override
         public Lobb chooseLobb(List<Lobb> lobbs) {
-                return lobbs.get(0);
+                String i = JOptionPane.showInputDialog("Escolha a sala");
+                Lobb lobb = lobbs.get(Integer.parseInt(i));
+                validate();
+                return lobb;
         }
 
         @Override
         public void showError(Throwable e) {
-
+                e.printStackTrace();
         }
 
+        //----------------------------------------------------------------------
         @Override
         public void addListener(ViewListener viewListener) {
                 this.listeners.add(viewListener);
@@ -67,30 +74,23 @@ public class ViewImpl extends JFrame implements View {
 
         @Override
         public String requestName() {
-                return "Joao";
+                return JOptionPane.showInputDialog("Informe o nome");
         }
 
+        //----------------------------------------------------------------------
         @Override
-        public void paint(Scene scene) {
-                canvas.paintScene(scene);
+        public void paint(Canvas canvas) {
+                System.out.println(canvas.getGraphics());
         }
 
-        private static class Canvas extends JPanel {
+        private class PanelGame extends JPanel implements Serializable {
 
-                private Scene scene;
-
-                private void paintScene(Scene scene) {
-                        this.scene = scene;
-                        repaint();
-                }
+                Graphics graphics;
 
                 @Override
-                public void paintComponent(Graphics g) {
+                protected void paintComponent(Graphics g) {
                         super.paintComponent(g);
-                        Graphics2D g2d = (Graphics2D) g;
-                        if (scene != null) {
-                                this.scene.pintar(g2d);
-                        }
+                        g.drawImage(Resources.background1(), WIDTH, WIDTH, this);
                 }
         }
 }

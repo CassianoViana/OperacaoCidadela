@@ -1,15 +1,16 @@
 package game;
 
 import java.io.Serializable;
+import java.rmi.Remote;
 
-public interface Lobb extends Serializable{
+public interface Lobb extends Serializable {
 
-	void addPlayer(Player player);
-        
+        void addGameObject(GameObject gameObject);
+
         String getName();
-        
+
         void start();
-        
+
         void addListener(LobbListener listener);
 
 }

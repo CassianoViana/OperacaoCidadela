@@ -1,6 +1,7 @@
 package remote;
 
 import game.Lobb;
+import game.LobbListener;
 import game.Server;
 import game.ServerListener;
 import impl.factory.LobbsFactory;
@@ -51,11 +52,17 @@ public class ServerImpl implements Server {
 
         @Override
         public void addListener(ServerListener listener) {
-                
+
         }
 
         @Override
         public void addLobb(Lobb lobb) {
                 this.lobbs.add(lobb);
         }
+
+        @Override
+        public void addLobbListener(LobbListener lobbListener, Integer lobbIndex) {
+                lobbs.get(lobbIndex).addListener(lobbListener);
+        }
+
 }
