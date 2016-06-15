@@ -7,5 +7,9 @@ public interface Lobb extends Serializable{
 	void addPlayer(Player player);
         
         String getName();
+        
+        void start();
+        
+        void addListener(LobbListener listener);
 
 }

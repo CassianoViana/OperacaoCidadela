@@ -2,12 +2,10 @@ package game;
 
 import java.io.Serializable;
 
-public interface Player extends Serializable {
+public abstract class Player extends GameObject implements Serializable {
 
-	public void setPosicao(int x, int y);
+        abstract public void execute(Command command);
 
-	public void execute(Command command);
-
-	public void setTeam(Team team);
+        abstract public void setTeam(Team team);
 
 }

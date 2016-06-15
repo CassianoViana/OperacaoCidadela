@@ -75,22 +75,9 @@ public class Client implements Serializable {
                         getRemoteServer();
                         showView();
                         createPlayer();
+                        chooseLobb();
                 } catch (RemoteException | NotBoundException e) {
                         showError(e);
-                }
-        }
-
-        private void showView() {
-                view.showView();
-                view.showPresentation();
-                showLobbs();
-        }
-
-        private void showLobbs() {
-                try {
-                        view.showLobbs(server.listLobbs());
-                } catch (RemoteException ex) {
-                        view.showError(ex);
                 }
         }
 
@@ -118,6 +105,29 @@ public class Client implements Serializable {
                 });
         }
 
+        private void showView() {
+                view.showView();
+                view.showPresentation();
+        }
+
+        private Player createPlayer() {
+                String name = view.requestName();
+                player = new impl.PlayerImpl();
+                return player;
+        }
+
+        private void chooseLobb() {
+                showLobbs();
+        }
+
+        private void showLobbs() {
+                try {
+                        view.showLobbs(server.listLobbs());
+                } catch (RemoteException ex) {
+                        view.showError(ex);
+                }
+        }
+
         public static Player create() {
                 try {
                         if (instance == null) {
@@ -128,12 +138,6 @@ public class Client implements Serializable {
                 } catch (Exception e) {
                         throw new RuntimeException("Falha ao iniciar jogador.", e);
                 }
-        }
-
-        private Player createPlayer() {
-                String name = view.requestName();
-                player = new impl.PlayerImpl();
-                return player;
         }
 
         private void showError(Throwable e) {

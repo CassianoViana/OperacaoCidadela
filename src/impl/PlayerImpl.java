@@ -4,26 +4,16 @@ import game.Command;
 import game.Player;
 import game.Team;
 
-public class PlayerImpl implements Player {
+public class PlayerImpl extends Player {
 
-	private int x, y;
-	
-	@Override
-	public void setPosicao(int x, int y) {
-		this.x = x;
-		this.y = y;
-	}
-
-	@Override
-	public void execute(Command command) {
+        @Override
+        public void execute(Command command) {
 		// TODO Auto-generated method stub
-		
-	}
+        }
 
-	@Override
-	public void setTeam(Team team) {
+        @Override
+        public void setTeam(Team team) {
 		// TODO Auto-generated method stub
-		
-	}
+        }
 
 }

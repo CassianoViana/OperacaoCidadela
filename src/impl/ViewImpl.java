@@ -84,7 +84,9 @@ public class ViewImpl extends JFrame implements View {
                 public void paintComponent(Graphics g) {
                         super.paintComponent(g);
                         Graphics2D g2d = (Graphics2D) g;
-                        this.scene.pintar(g2d);
+                        if (scene != null) {
+                                this.scene.pintar(g2d);
+                        }
                 }
         }
 }

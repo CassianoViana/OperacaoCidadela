@@ -3,7 +3,7 @@ package remote;
 import game.Lobb;
 import game.Server;
 import game.ServerListener;
-import impl.LobbImpl;
+import impl.factory.LobbsFactory;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -19,8 +19,7 @@ public class ServerImpl implements Server {
 
         private ServerImpl() {
                 lobbs = new ArrayList<>();
-                lobbs.add(new LobbImpl("Sala1"));
-                lobbs.add(new LobbImpl("Sala2"));
+                lobbs.add(LobbsFactory.createStartedLobb("Dead Field"));
         }
 
         public static Server instance() {
