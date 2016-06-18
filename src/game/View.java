@@ -1,22 +1,28 @@
 package game;
 
+import java.io.Serializable;
 import java.util.List;
 
 import view.ViewListener;
-import view.Scene;
 
-public interface View {
+public interface View extends Serializable {
 
-	void showPresentation();
+        void showView();
 
-	void showLobbs(List<Lobb> lobbs);
+        void showPresentation();
 
-	void showError(Throwable e);
+        void showLobbs(List<Lobb> lobbs);
 
-	void addListener(ViewListener viewListener);
+        Lobb chooseLobb(List<Lobb> lobbs);
 
-	void startedLobb();
+        void showError(Throwable e);
 
-	void paint(Scene scene);
+        void addListener(ViewListener viewListener);
+
+        void startedLobb();
+
+        public String requestName();
+
+        public void paint(Canvas canvas);
 
 }
