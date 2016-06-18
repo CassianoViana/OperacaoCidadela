@@ -5,25 +5,23 @@ import game.Canvas;
 import game.Lobb;
 import game.View;
 import java.awt.BorderLayout;
-import java.awt.Graphics;
-import static java.awt.image.ImageObserver.WIDTH;
+import java.awt.Image;
 import java.io.Serializable;
-import java.rmi.RemoteException;
+import java.rmi.Remote;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
-import resources.Resources;
 
 import view.ViewListener;
 
-public class ViewImpl extends JFrame implements View {
+public class ViewImpl extends JFrame implements View, Remote {
 
         private final Collection<ViewListener> listeners;
         private final PanelGame panelGame;
@@ -32,7 +30,7 @@ public class ViewImpl extends JFrame implements View {
                 listeners = new ArrayList<>();
                 panelGame = new PanelGame();
                 setSize(GameConstants.SCREEN_WIDTH, GameConstants.SCREEN_HEIGHT);
-                setResizable(false);
+                //setResizable(false);
                 setLocationRelativeTo(null);
                 setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                 add(panelGame);
@@ -56,20 +54,10 @@ public class ViewImpl extends JFrame implements View {
         //----------------------------------------------------------------------
         @Override
         public Lobb chooseLobb(List<Lobb> lobbs) {
-                try {
-                        String i = JOptionPane.showInputDialog("Escolha a sala");
-                        Lobb lobb = lobbs.get(Integer.parseInt(i));
-                        Canvas canvas;
-                        canvas = lobb.getCanvas();
-                        canvas.setSize(getSize());
-                        remove(panelGame);
-                        add(canvas);
-                        repaint();
-                        return lobb;
-                } catch (RemoteException ex) {
-                        showError(ex);
-                }
-                return null;
+                String i = JOptionPane.showInputDialog("Escolha a sala");
+                Lobb lobb = lobbs.get(Integer.parseInt(i));
+                repaint();
+                return lobb;
         }
 
         @Override
@@ -96,17 +84,18 @@ public class ViewImpl extends JFrame implements View {
         //----------------------------------------------------------------------
         @Override
         public void paint(Canvas canvas) {
-                System.out.println(canvas.getGraphics());
+                panelGame.paint(canvas.getImage());
         }
 
         private class PanelGame extends JPanel implements Serializable {
 
-                Graphics graphics;
+                public PanelGame() {
+                        setLayout(new BorderLayout());
+                }
 
-                @Override
-                protected void paintComponent(Graphics g) {
-                        super.paintComponent(g);
-                        g.drawImage(Resources.background1(), WIDTH, WIDTH, this);
+                private void paint(Image image) {
+                        PanelGame.this.add(new JLabel(new ImageIcon(image)));
+                        repaint();
                 }
         }
 }

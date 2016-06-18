@@ -4,6 +4,7 @@ import game.Canvas;
 import game.Command;
 import game.Player;
 import game.Team;
+import java.awt.Color;
 
 public class PlayerImpl extends Player {
 
@@ -21,7 +22,8 @@ public class PlayerImpl extends Player {
 
         @Override
         public void paint(Canvas canvas) {
-                //canvas.getGraphics().fillOval(getX(), getY(), 30, 30);
+                canvas.getGraphics().setColor(Color.blue);
+                canvas.getGraphics().fillOval(0, 0, 900, 900);
         }
 
         @Override

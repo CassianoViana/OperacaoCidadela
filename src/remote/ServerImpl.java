@@ -18,12 +18,12 @@ public class ServerImpl implements Server {
         private static Server game;
         private final List<Lobb> lobbs;
 
-        private ServerImpl() {
+        private ServerImpl() throws RemoteException {
                 lobbs = new ArrayList<>();
                 lobbs.add(LobbsFactory.createStartedLobb("Dead Field"));
         }
 
-        public static Server instance() {
+        public static Server instance() throws RemoteException {
                 if (game == null) {
                         game = new ServerImpl();
                         registry();
@@ -31,7 +31,7 @@ public class ServerImpl implements Server {
                 return game;
         }
 
-        public static void main(String[] args) {
+        public static void main(String[] args) throws RemoteException {
                 ServerImpl.instance();
         }
 

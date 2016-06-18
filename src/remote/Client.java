@@ -25,7 +25,7 @@ public class Client implements Serializable {
 
         private static Server server;
         private static Player player;
-        private static View view;
+        private final View view;
 
         private static Client instance;
 
@@ -118,7 +118,7 @@ public class Client implements Serializable {
                         List<Lobb> listLobbs = server.listLobbs();
                         Lobb lobb = view.chooseLobb(listLobbs);
                         lobb.addListener((Canvas canvas) -> {
-                                System.out.println(view);
+                                view.paint(canvas);
                         });
                         lobb.addGameObject(player);
                         System.out.println(lobb);
@@ -127,10 +127,6 @@ public class Client implements Serializable {
                         view.showError(ex);
                 }
 
-        }
-        
-        private void paint(Canvas canvas){
-                view.paint(canvas);
         }
 
         private void showLobbs() {

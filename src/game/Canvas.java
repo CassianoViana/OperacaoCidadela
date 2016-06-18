@@ -1,16 +1,19 @@
 package game;
 
-import java.awt.Image;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 import java.io.Serializable;
-import javax.swing.JPanel;
 
-public abstract class Canvas extends JPanel implements Serializable {
+public abstract class Canvas implements Serializable {
 
-        public transient Image image;
+	public BufferedImage image;
 
-        public Image getImage() {
-                return image;
-        }
+	public BufferedImage getImage() {
+		return image;
+	}
 
+	public Graphics getGraphics() {
+		return image.getGraphics();
+	}
 
 }

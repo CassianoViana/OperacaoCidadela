@@ -3,15 +3,16 @@ package view;
 import game.Command;
 import game.Lobb;
 import game.Team;
+import java.io.Serializable;
 
-public interface ViewListener {
+public interface ViewListener extends Serializable {
 
-	void creattedLobb(Lobb lobb);
+        void creattedLobb(Lobb lobb);
 
-	void selectedLobb(Lobb lobb);
+        void selectedLobb(Lobb lobb);
 
-	void commanded(Command command);
+        void commanded(Command command);
 
-	void selectedTeam(Team team);
+        void selectedTeam(Team team);
 
 }
