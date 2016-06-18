@@ -17,7 +17,6 @@ import java.rmi.registry.Registry;
 import java.util.List;
 
 import view.Scene;
-import view.ViewListener;
 import view.ViewListenerAdapter;
 
 public class Client {
