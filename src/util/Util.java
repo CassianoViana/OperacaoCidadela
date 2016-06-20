@@ -11,7 +11,7 @@ public class Util {
 
 	public static void sleep() {
 		try {
-			Thread.sleep(20);
+			Thread.sleep(30);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -30,8 +30,7 @@ public class Util {
 		for (Object object : objects) {
 			joined += object + ",";
 		}
-		joined = joined.substring(0, joined.length() - 1);
-		Log.d(joined);
+		joined = joined.substring(0, joined.length() - 1);		
 		return joined;
 	}
 

@@ -54,8 +54,8 @@ public class ServerGate {
 				while (inFromServer != null) {
 					try {
 						if (inFromServer.available() > 0) {
-							String drawCommand =  inFromServer.readUTF();
-							Log.d(drawCommand);
+							String drawCommand = inFromServer.readUTF();
+							Log.d(this, "Chegou mensagem: " + drawCommand);
 							drawCommands.put(drawCommand);
 						}
 					} catch (Exception e) {
