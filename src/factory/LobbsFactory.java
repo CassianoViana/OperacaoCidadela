@@ -1,5 +1,5 @@
 
-package impl.factory;
+package factory;
 
 import game.Lobb;
 import impl.LobbImpl;
