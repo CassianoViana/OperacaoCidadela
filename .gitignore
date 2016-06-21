@@ -5,3 +5,9 @@
 git_backup
 teste.jpg
 bin/*
+<<<<<<< HEAD
+=======
+/bin/
+*.class
+
+>>>>>>> erro

@@ -1,11 +1,12 @@
 package util;
 
-import java.awt.Graphics;
 import java.util.HashMap;
 import java.util.Map;
 
 import core.Log;
+import core.Teams;
 import gamecore.GameObject;
+import gamecore.Tank;
 
 public class Util {
 
@@ -39,11 +40,9 @@ public class Util {
 	private static class Holder {
 		Map<String, GameObject> map = new HashMap<>();
 
-		public GameObject getGameObjectFromType(String className)
-				throws Exception {
+		public GameObject getGameObjectFromType(String className) throws Exception {
 			if (!map.containsKey(className)) {
-				map.put(className, (GameObject) Class.forName(className)
-						.newInstance());
+				map.put(className, (GameObject) Class.forName(className).newInstance());
 			}
 			return map.get(className);
 		}
@@ -51,7 +50,7 @@ public class Util {
 
 	private static Holder holder = new Holder();
 
-	public static GameObject translate(String comando) {
+	public static GameObject toGameObject(String comando) {
 		GameObject go = null;
 		try {
 			Log.d(comando);
@@ -65,6 +64,11 @@ public class Util {
 			go.w = Integer.parseInt(c[3]);
 			go.h = Integer.parseInt(c[4]);
 			go.anguloFace = Float.parseFloat(c[5]);
+			
+			if (className.endsWith("Tank")) {
+				((Tank) go).setName(c[6]);
+				((Tank) go).setTeam(Teams.valueOf(c[7]));
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
