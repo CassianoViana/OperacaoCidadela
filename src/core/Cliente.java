@@ -1,12 +1,13 @@
 package core;
 
+import gamecore.Command;
+
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-import gamecore.Command;
 import util.Util;
 
 public class Cliente {
@@ -58,6 +59,11 @@ public class Cliente {
 			@Override
 			public void commanded(Command command) {
 				serverGate.send(Util.join(id, command));
+			}
+			@Override
+			public void commanded(Command command, Params params) {
+				Object join = Util.join(id, command, params);
+				serverGate.send(join);
 			}
 		});
 		gameWindow.mostrar();
