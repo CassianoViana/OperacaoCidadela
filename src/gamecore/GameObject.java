@@ -11,7 +11,7 @@ public abstract class GameObject {
 
 	private Set<MovState> movsStates = new HashSet<>();
 	public int x = 0, y = 0, w = 30, h = 30;
-	public float speed = 3;
+	public float speed = 5;
 	public float anguloFace = 45;
 	public float velTurning = 3;
 	protected float time = 1;

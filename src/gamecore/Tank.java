@@ -12,8 +12,10 @@ import resources.R;
 public class Tank extends GameObject {
 
 	private BufferedImage image;
+	private TankType tankType;
 
 	public Tank() {
+		tankType = TankType.STRONG;
 		x = 50;
 		y = 50;
 		w = 50;
@@ -65,6 +67,10 @@ public class Tank extends GameObject {
 		default:
 			break;
 		}
+	}
+
+	public Shoot shoot() {
+		return tankType.shoot(this);
 	}
 
 }

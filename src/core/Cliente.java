@@ -32,7 +32,7 @@ public class Cliente {
 		return new Runnable() {
 			@Override
 			public void run() {
-				while (true) {
+				while (true) {					
 					try {
 						String command = commandos.take();
 						// transformar em listener:
@@ -55,7 +55,6 @@ public class Cliente {
 	}
 
 	private void startGui() {
-
 		gameWindow = new GameWindow(new GameWindow.Listener() {
 			@Override
 			public void commanded(Command command) {

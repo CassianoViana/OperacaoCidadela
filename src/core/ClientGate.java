@@ -7,6 +7,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.concurrent.BlockingQueue;
 
+import util.Util;
+
 public class ClientGate {
 
 	private DataInputStream inFromClient;

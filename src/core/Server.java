@@ -16,6 +16,7 @@ import java.util.concurrent.BlockingQueue;
 import gamecore.Background;
 import gamecore.Command;
 import gamecore.GameObject;
+import gamecore.Shoot;
 import gamecore.Tank;
 import util.Util;
 
@@ -24,7 +25,8 @@ public class Server {
 	public static final String HOST = "localhost";
 	private ServerSocket server;
 	private Map<String, ClientGate> gates = new HashMap<>();
-	private Map<String, GameObject> objects = new LinkedHashMap<>();
+	private Map<String, Tank> tanks = new LinkedHashMap<>();
+	private Set<GameObject> objects = new HashSet<>();
 	private Set<String> ids = new HashSet<>();
 	private BlockingQueue<String> comandos = new ArrayBlockingQueue<>(20);
 
@@ -35,7 +37,7 @@ public class Server {
 	private void init() throws Exception {
 
 		server = new ServerSocket(PORT);
-		objects.put("background", new Background());
+		objects.add(new Background());
 		new Thread(recebeConexoes()).start();
 		new Thread(computaComandos()).start();
 		new Thread(montaStringCanvas()).start();
@@ -81,12 +83,18 @@ public class Server {
 
 			private void decodeCommand(String id, String commandName) {
 				Command command = Command.valueOf(commandName);
-				objects.get(id).decodeCommand(command);
+				tanks.get(id).decodeCommand(command);
 				switch (command) {
 				case EXIT:
 					gates.remove(id);
 					objects.remove(id);
 					ids.remove(id);
+					break;
+				case SHOOT:
+					Tank tank = tanks.get(id);
+					Shoot shoot = tank.shoot();
+					objects.add(shoot);
+					break;
 				default:
 					break;
 				}
@@ -100,7 +108,7 @@ public class Server {
 			public void run() {
 				StringBuffer sb = new StringBuffer();
 				while (true) {
-					for (GameObject gameObject : objects.values()) {
+					for (GameObject gameObject : objects) {
 						gameObject.update();
 						sb.append(gameObject.drawCommand()).append(Util.DRAW_COMMAND_SEPARATOR);
 					}
@@ -109,8 +117,8 @@ public class Server {
 						gate = gates.get(id);
 						gate.sendMessage(sb.toString());
 					}
-					sb.delete(0, sb.length());
 					Util.sleep();
+					sb.delete(0, sb.length());
 				}
 			}
 		};
@@ -121,7 +129,8 @@ public class Server {
 
 		String id = gate.readUTF();
 		Tank tank = new Tank();
-		objects.put(id, tank);
+		objects.add(tank);
+		tanks.put(id, tank);
 		gates.put(id, gate);
 		ids.add(id);
 
