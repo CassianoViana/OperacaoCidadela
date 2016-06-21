@@ -10,6 +10,8 @@ import java.util.concurrent.BlockingQueue;
 
 import javax.imageio.ImageIO;
 
+import util.Util;
+
 public class ServerGate {
 
 	private DataOutputStream outToServer;

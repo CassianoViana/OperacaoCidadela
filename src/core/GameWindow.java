@@ -68,7 +68,7 @@ public class GameWindow extends JFrame {
 				listener.commanded(Command.DOWN);
 				break;
 			case KeyEvent.VK_SPACE:
-				listener.commanded(Command.FIRE);
+				listener.commanded(Command.SHOOT);
 				break;
 			default:
 				break;
@@ -92,7 +92,7 @@ public class GameWindow extends JFrame {
 				listener.commanded(Command.DOWN_STOP);
 				break;
 			case KeyEvent.VK_SPACE:
-				listener.commanded(Command.FIRE_STOP);
+				listener.commanded(Command.SHOOT_STOP);
 				break;
 			default:
 				break;
@@ -147,10 +147,10 @@ public class GameWindow extends JFrame {
 				String comandos[] = comandoDraw.split(Util.DRAW_COMMAND_SEPARATOR);
 				for (String comando : comandos) {
 					GameObject go = Util.translate(comando);
-					Log.d(this, "Desenhar " + go);
 					go.draw(g);
 				}
 			}
+			g.dispose();
 		}
 	}
 }

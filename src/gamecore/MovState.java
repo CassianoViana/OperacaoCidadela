@@ -1,12 +1,11 @@
 package gamecore;
 
-import util.Util;
-
-public enum MovState implements Motor {
+	public enum MovState implements Motor {
 	GOING_TO_FRONT {
 		@Override
 		public void move(GameObject go) {
 			double anguloEmRadianos = Math.toRadians(go.anguloFace);
+			
 			go.direction.x = (float) Math.cos(anguloEmRadianos);
 			go.direction.y = (float) Math.sin(anguloEmRadianos);
 
@@ -24,6 +23,8 @@ public enum MovState implements Motor {
 		@Override
 		public void move(GameObject go) {
 			double anguloEmRadianos = Math.toRadians(go.anguloFace);
+			go.x -= Math.cos(anguloEmRadianos) * go.speed;
+			go.y -= Math.sin(anguloEmRadianos) * go.speed;
 			go.direction.x = (float) Math.cos(anguloEmRadianos);
 			go.direction.y = (float) Math.sin(anguloEmRadianos);
 
