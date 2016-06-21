@@ -46,4 +46,13 @@ public abstract class GameObject {
 		public float x, y;
 	}
 
+	@Override
+	public String toString() {
+		return "GameObject [movsStates=" + movsStates + ", x=" + x + ", y=" + y + ", w=" + w + ", h=" + h + ", speed="
+				+ speed + ", anguloFace=" + anguloFace + ", velTurning=" + velTurning + ", time=" + time + ", sb=" + sb
+				+ ", direction=" + direction + ", velocity=" + velocity + ", position=" + position + "]";
+	}
+	
+	
+
 }

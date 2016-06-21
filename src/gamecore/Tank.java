@@ -33,7 +33,6 @@ public class Tank extends GameObject {
 				rectangle.getY() + rectangle.height / 2);
 		g.setTransform(transform);
 		g.fill(rectangle);
-		g.dispose();
 	}
 
 	@Override

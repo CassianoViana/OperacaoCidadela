@@ -34,9 +34,9 @@ public class Cliente {
 			public void run() {
 				while (true) {
 					try {
-						Log.d(this, "Esperando comando");
 						String command = commandos.take();
-						//gameWindow.commandComming(command);
+						// transformar em listener:
+						gameWindow.commandComming(command);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -50,6 +50,8 @@ public class Cliente {
 		serverGate = new ServerGate(server.getInputStream(), server.getOutputStream());
 		id = Util.generateId();
 		serverGate.send(id);
+		
+		serverGate.startReceiveMessages(commandos);
 	}
 
 	private void startGui() {
@@ -61,8 +63,5 @@ public class Cliente {
 			}
 		});
 		gameWindow.mostrar();
-		gameWindow.mostrarSelecaoTime();
-		gameWindow.startWaitDrawCommands();	
-		serverGate.startReceiveMessages(gameWindow.commandosDraw);
 	}
 }

@@ -1,10 +1,7 @@
-*.class
-*.jar
-/bin/
-.metadata
-build.xml
-manifest.mf
-nbproject/
+.project
+.classpath
+.project
+.settings
+git_backup
+teste.jpg
 
-/build/
-/dist/

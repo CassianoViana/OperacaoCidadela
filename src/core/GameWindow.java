@@ -50,23 +50,12 @@ public class GameWindow extends JFrame {
 
 	public void mostrar() {
 		setVisible(true);
+		mostrarSelecaoTime();
 	}
 
-	public void startWaitDrawCommands() {
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				while (true) {
-					try {
-						Log.d(this, "Esperando comando para desenhar");
-						comandoDraw = commandosDraw.take();
-						painelPintura.repaint();
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		}).start();
+	public void commandComming(String command) {
+		comandoDraw = command;
+		painelPintura.repaint();
 	}
 
 	private class Joystick implements KeyListener, WindowListener {
@@ -163,10 +152,13 @@ public class GameWindow extends JFrame {
 		protected void paintComponent(Graphics graphics) {
 			super.paintComponent(graphics);
 			Graphics2D g = (Graphics2D) graphics;
-			String comandos[] = comandoDraw.split(Util.DRAW_COMMAND_SEPARATOR);
-			for (String comando : comandos) {
-				GameObject go = Util.toGameObject(comando);
-				go.draw(g);
+			if (comandoDraw != null) {
+				String comandos[] = comandoDraw.split(Util.DRAW_COMMAND_SEPARATOR);
+				for (String comando : comandos) {
+					GameObject go = Util.translate(comando);
+					Log.d(this, "Desenhar " + go);
+					go.draw(g);
+				}
 			}
 		}
 	}
