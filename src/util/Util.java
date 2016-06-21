@@ -36,25 +36,14 @@ public class Util {
 		return joined;
 	}
 
-	private static GameObject newGameObject(String className) {
-		try {
-			return (GameObject) Class.forName(className).newInstance();
-		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		return new GameObject() {
-			@Override
-			public void draw(Graphics g) {
-			}
-		};
-	}
-
 	private static class Holder {
 		Map<String, GameObject> map = new HashMap<>();
 
-		public GameObject getGameObjectFromType(String className) throws Exception {
+		public GameObject getGameObjectFromType(String className)
+				throws Exception {
 			if (!map.containsKey(className)) {
-				map.put(className, (GameObject) Class.forName(className).newInstance());
+				map.put(className, (GameObject) Class.forName(className)
+						.newInstance());
 			}
 			return map.get(className);
 		}
@@ -71,7 +60,6 @@ public class Util {
 
 			go = holder.getGameObjectFromType(className);
 
-			// GameObject go = newGameObject(className);
 			go.x = Integer.parseInt(c[1]);
 			go.y = Integer.parseInt(c[2]);
 			go.w = Integer.parseInt(c[3]);
