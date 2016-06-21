@@ -6,3 +6,5 @@ git_backup
 teste.jpg
 bin/*
 /bin/
+*.class
+

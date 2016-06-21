@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 
 import core.Teams;
 import resources.R;
+import util.Util;
 
 public class Tank extends GameObject {
 
@@ -25,6 +26,11 @@ public class Tank extends GameObject {
 		h = 50;
 		velTurning = 3;
 		speed = 4;
+	}
+	
+	@Override
+	public String drawCommand() {
+		return (String) Util.join(this.getClass().getName(), x, y, w, h, anguloFace, name, team);
 	}
 
 	@Override
@@ -45,6 +51,8 @@ public class Tank extends GameObject {
 		grafico.setTransform(transform);
 		grafico.fill(rectangle);
 		grafico.drawImage(team.getImage(), null, x, y);
+		
+		grafico.dispose();
 	}
 
 	private Color getColor(int vida) {

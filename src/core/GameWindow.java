@@ -163,7 +163,7 @@ public class GameWindow extends JFrame {
 			if (comandoDraw != null) {
 				String comandos[] = comandoDraw.split(Util.DRAW_COMMAND_SEPARATOR);
 				for (String comando : comandos) {
-					GameObject go = Util.translate(comando);
+					GameObject go = Util.toGameObject(comando);
 					go.draw(g);
 				}
 			}
