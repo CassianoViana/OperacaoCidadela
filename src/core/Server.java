@@ -18,17 +18,20 @@ import gamecore.Command;
 import gamecore.GameObject;
 import gamecore.Shoot;
 import gamecore.Tank;
+import util.UtfSplitter;
 import util.Util;
 
 public class Server {
 	public static final int PORT = 50000;
 	public static final String HOST = "localhost";
 	private ServerSocket server;
-	private Map<String, ClientGate> gates = new HashMap<>();
-	private Map<String, Tank> tanks = new LinkedHashMap<>();
-	private Set<GameObject> objects = new HashSet<>();
-	private Set<String> ids = new HashSet<>();
-	private BlockingQueue<String> comandos = new ArrayBlockingQueue<>(20);
+	private static final Map<String, ClientGate> gates = new HashMap<>();
+	private static final Map<String, Tank> tanks = new LinkedHashMap<>();
+	private static final Set<GameObject> objects = new HashSet<>();
+	private static final Set<String> ids = new HashSet<>();
+	private static final BlockingQueue<String> comandos = new ArrayBlockingQueue<>(
+			20);
+	private static final UtfSplitter splitter = new UtfSplitter();
 
 	public static void main(String[] args) throws Exception {
 		new Server().init();
@@ -72,16 +75,20 @@ public class Server {
 					while (true) {
 						Log.d(this, "Esperando comando");
 						String utf = comandos.take();
-						String id = Util.split(utf)[0];
-						String command = Util.split(utf)[1];
-						decodeCommand(id, command);
+						splitter.split(utf);
+						String id = splitter.getId();
+						String command = splitter.getCommand();
+						Params params = splitter.getParameters();
+						executeCommand(id, command, params);
+						splitter.clear();
 					}
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 			}
 
-			private void decodeCommand(String id, String commandName) {
+			private void executeCommand(String id, String commandName,
+					Params params) {
 				Command command = Command.valueOf(commandName);
 				tanks.get(id).decodeCommand(command);
 				switch (command) {
@@ -94,6 +101,11 @@ public class Server {
 					Tank tank = tanks.get(id);
 					Shoot shoot = tank.shoot();
 					objects.add(shoot);
+					break;
+				case CONFIGURE_PLAYER:
+					Tank player = tanks.get(id);
+					player.setName(params.get("name"));
+					player.setTeam(Teams.valueOf(params.get("team")));
 					break;
 				default:
 					break;
@@ -110,7 +122,8 @@ public class Server {
 				while (true) {
 					for (GameObject gameObject : objects) {
 						gameObject.update();
-						sb.append(gameObject.drawCommand()).append(Util.DRAW_COMMAND_SEPARATOR);
+						sb.append(gameObject.drawCommand()).append(
+								Util.DRAW_COMMAND_SEPARATOR);
 					}
 					ClientGate gate;
 					for (String id : gates.keySet()) {
@@ -124,7 +137,8 @@ public class Server {
 		};
 	}
 
-	private void addPlayer(InputStream inFromClient, OutputStream outToClient) throws IOException {
+	private void addPlayer(InputStream inFromClient, OutputStream outToClient)
+			throws IOException {
 		ClientGate gate = new ClientGate(inFromClient, outToClient);
 
 		String id = gate.readUTF();

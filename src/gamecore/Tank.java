@@ -7,12 +7,15 @@ import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
+import core.Teams;
 import resources.R;
 
 public class Tank extends GameObject {
 
-	private BufferedImage image;
 	private TankType tankType;
+	private String name = "Tank";
+	private Teams team = Teams.URSS; // Por padrão é da Rússia
+	private int vida = 100;
 
 	public Tank() {
 		tankType = TankType.STRONG;
@@ -22,19 +25,36 @@ public class Tank extends GameObject {
 		h = 50;
 		velTurning = 3;
 		speed = 4;
-		image = R.load(R.tank1);
 	}
 
 	@Override
 	public void draw(Graphics graphics) {
-		Graphics2D g = (Graphics2D) graphics;
-		g.setColor(Color.white);
+		Graphics2D grafico = (Graphics2D) graphics;
+
+		grafico.setColor(getColor(vida));
+		grafico.fillRect(x, y, vida, 5);
+		grafico.drawString(name, x, y - 5);
+		grafico.setColor(Color.ORANGE);
+		grafico.drawRect(x, y, 100, 5);
+
+		grafico.setColor(Color.white);
 		Rectangle rectangle = new Rectangle(x, y, w, h);
 		AffineTransform transform = new AffineTransform();
-		transform.rotate(Math.toRadians(anguloFace), rectangle.getX() + rectangle.width / 2,
-				rectangle.getY() + rectangle.height / 2);
-		g.setTransform(transform);
-		g.fill(rectangle);
+		transform.rotate(Math.toRadians(anguloFace), rectangle.getX()
+				+ rectangle.width / 2, rectangle.getY() + rectangle.height / 2);
+		grafico.setTransform(transform);
+		grafico.fill(rectangle);
+		grafico.drawImage(team.getImage(), null, x, y);
+	}
+
+	private Color getColor(int vida) {
+		if (vida > 50) {
+			return Color.GREEN;
+		} else if (vida > 25) {
+			return Color.ORANGE;
+		} else {
+			return Color.RED;
+		}
 	}
 
 	@Override
@@ -71,6 +91,14 @@ public class Tank extends GameObject {
 
 	public Shoot shoot() {
 		return tankType.shoot(this);
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setTeam(Teams team) {
+		this.team = team;
 	}
 
 }

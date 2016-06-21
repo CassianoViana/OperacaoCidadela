@@ -3,7 +3,10 @@ package core;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
 
+import javax.swing.AbstractAction;
+import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -14,11 +17,47 @@ import javax.swing.border.EmptyBorder;
 
 import resources.R;
 import core.view.ButtonFactory;
+import core.view.GameDialogs;
 
 public class TeamSelectionDialog extends JDialog {
 
+	private final class TeamButtonAction extends AbstractAction {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			selectedTeamName = ((AbstractButton) e.getSource()).getText();
+		}
+	}
+
+	private final class IniciarAction extends AbstractAction {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			try {
+				validateTeamSelection();
+				validatePlayerName();
+				TeamSelectionDialog.this.dispose();
+			} catch (Exception e2) {
+				GameDialogs.error(e2.getMessage());
+			}
+		}
+
+		private void validatePlayerName() {
+			if (textField.getText().isEmpty()) {
+				throw new IllegalStateException(
+						"Falta informar o nome do jogador!");
+			}
+		}
+
+		private void validateTeamSelection() {
+			if (selectedTeamName == null) {
+				throw new IllegalStateException("Falta selecionar o time!");
+			}
+		}
+	}
+
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textField;
+	private String selectedTeamName;
+	private final TeamButtonAction teamButtonAction = new TeamButtonAction();
 
 	/**
 	 * Launch the application.
@@ -43,44 +82,46 @@ public class TeamSelectionDialog extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
-		
+
 		JLabel lblNome = new JLabel("Nome");
 		lblNome.setForeground(Color.YELLOW);
 		lblNome.setFont(new Font("Dialog", Font.BOLD, 19));
-		lblNome.setBounds(439, 94, 70, 15);
+		lblNome.setBounds(51, 54, 70, 15);
 		contentPanel.add(lblNome);
-		
+
 		textField = new JTextField();
-		textField.setBounds(316, 127, 323, 48);
+		textField.setBounds(51, 81, 323, 48);
 		contentPanel.add(textField);
 		textField.setColumns(10);
-		
+
 		JButton btnUnioSovitica = ButtonFactory.createJButton();
-		btnUnioSovitica.setText("UNIÃO SOVIÉTICA");
-		btnUnioSovitica.setFont(new Font("Khmer OS", Font.BOLD, 37));
+		btnUnioSovitica.setAction(teamButtonAction);
+		btnUnioSovitica.setText(Teams.URSS.getName());
 		btnUnioSovitica.setBounds(545, 268, 387, 102);
 		contentPanel.add(btnUnioSovitica);
-		
+
 		JButton btnAlemanha = ButtonFactory.createJButton();
-		btnAlemanha.setText("ALEMANHA");
-		btnAlemanha.setFont(new Font("Khmer OS", Font.BOLD, 37));
+		btnAlemanha.setAction(teamButtonAction);
+		btnAlemanha.setText(Teams.GERMANY.getName());
 		btnAlemanha.setBounds(63, 268, 331, 102);
 		contentPanel.add(btnAlemanha);
-		
+
 		JButton btnIniciar = ButtonFactory.createJButton();
-		
-		btnIniciar.setText("INICIAR");
-		btnIniciar.setFont(new Font("Khmer OS", Font.BOLD, 37));
-		btnIniciar.setBounds(695, 409, 272, 102);
+		btnIniciar.setAction(new IniciarAction());
+		btnIniciar.setText("Iniciar");
+		btnIniciar.setBounds(662, 409, 272, 102);
 		contentPanel.add(btnIniciar);
-		
+
 		JLabel lblFundo = new JLabel(new ImageIcon(R.load(R.FUNDO)));
 		lblFundo.setBounds(0, -25, GameWindow.WIDTH, GameWindow.HEIGHT);
 		contentPanel.add(lblFundo);
-		{
-			JPanel buttonPane = new JPanel();
-			getContentPane().add(buttonPane, BorderLayout.SOUTH);
-			buttonPane.setLayout(new BorderLayout(0, 0));
-		}
+	}
+
+	public String getSelectedTeamName() {
+		return selectedTeamName;
+	}
+
+	public String getPlayerName() {
+		return textField.getText();
 	}
 }

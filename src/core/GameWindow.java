@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
@@ -27,7 +28,7 @@ public class GameWindow extends JFrame {
 
 	public static final Color BACK = new Color(0.5f, 0.9f, 0.5f, 0f);
 	public static final Color FRONT = Color.yellow;
-	public static final Font FONT = new Font("Khmer OS", Font.BOLD, 15);
+	public static final Font FONT = new Font("Khmer OS", Font.BOLD, 35);
 
 	private Listener listener;
 	public BlockingQueue<BufferedImage> images = new ArrayBlockingQueue<>(1);
@@ -35,7 +36,7 @@ public class GameWindow extends JFrame {
 	public BufferedImage image;
 	public String comandoDraw;
 	private PainelPintura painelPintura = new PainelPintura();
-	private final TeamSelectionDialog teamSelectionDialog = new TeamSelectionDialog();
+	private TeamSelectionDialog teamSelectionDialog;
 
 	public GameWindow(Listener listener) {
 		setSize(WIDTH, HEIGHT);
@@ -46,6 +47,7 @@ public class GameWindow extends JFrame {
 		addWindowListener(joystick);
 		addKeyListener(joystick);
 		this.listener = listener;
+		createTeamSelectionDialog();
 	}
 
 	public void mostrar() {
@@ -144,6 +146,12 @@ public class GameWindow extends JFrame {
 
 	public interface Listener {
 		void commanded(Command command);
+		void commanded(Command command, Params params);
+	}
+	
+	public class ListenerAdapter implements Listener{
+		public void commanded(Command command) {}
+		public void commanded(Command command, Params params) {}
 	}
 
 	private class PainelPintura extends JPanel {
@@ -165,5 +173,20 @@ public class GameWindow extends JFrame {
 
 	public void mostrarSelecaoTime() {
 		teamSelectionDialog.setVisible(true);
+	}
+	
+	private void createTeamSelectionDialog() {
+		teamSelectionDialog = new TeamSelectionDialog();
+		teamSelectionDialog.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosed(WindowEvent e) {
+				String team = teamSelectionDialog.getSelectedTeamName();
+				String name = teamSelectionDialog.getPlayerName();
+				Params params = new Params();
+				params.add("team", team);
+				params.add("name", name);
+				listener.commanded(Command.CONFIGURE_PLAYER, params);
+			}
+		});
 	}
 }

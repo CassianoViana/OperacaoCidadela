@@ -60,6 +60,11 @@ public class Cliente {
 			public void commanded(Command command) {
 				serverGate.send(Util.join(id, command));
 			}
+			@Override
+			public void commanded(Command command, Params params) {
+				Object join = Util.join(id, command, params);
+				serverGate.send(join);
+			}
 		});
 		gameWindow.mostrar();
 	}
